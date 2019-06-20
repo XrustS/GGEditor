@@ -1,7 +1,6 @@
 import G6 from '@antv/g6';
 import {
-  LABEL_STATE_HIDE,
-  LABEL_STATE_SHOW,
+  LabelState,
   EDITOR_EVENTS_EDITOR_LABEL,
 } from '@common/constants';
 
@@ -17,13 +16,13 @@ G6.registerBehavior('edit-label', {
   hideLabel() {
     const { graph } = this;
 
-    graph.emit(EDITOR_EVENTS_EDITOR_LABEL, LABEL_STATE_HIDE);
+    graph.emit(EDITOR_EVENTS_EDITOR_LABEL, LabelState.Hide);
   },
 
   showLabel() {
     const { graph } = this;
 
-    graph.emit(EDITOR_EVENTS_EDITOR_LABEL, LABEL_STATE_SHOW);
+    graph.emit(EDITOR_EVENTS_EDITOR_LABEL, LabelState.Show);
   },
 
   handleNodeClick() {

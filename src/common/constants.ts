@@ -16,12 +16,16 @@ export const ITEM_TYPE_EDGE = 'edge';
 export const ITEM_STATE_ACTIVE = 'active';
 export const ITEM_STATE_SELECTED = 'selected';
 
-export const LABEL_STATE_HIDE = 'HIDE';
-export const LABEL_STATE_SHOW = 'SHOW';
+export enum GraphState {
+  NodeSelected = 'NodeSelected',
+  MultiSelected = 'MultiSelected',
+  CanvasSelected = 'CanvasSelected',
+}
 
-export const GRAPH_STATE_NODE_SELECTED = 'NODE_SELECTED';
-export const GRAPH_STATE_MULTI_SELECTED = 'MULTI_SELECTED';
-export const GRAPH_STATE_CANVAS_SELECTED = 'CANVAS_SELECTED';
+export enum LabelState {
+  Hide = 'Hide',
+  Show = 'Show',
+}
 
 export const GRAPH_EVENTS_COMMON = {
   click: 'Click',

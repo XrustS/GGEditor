@@ -3,9 +3,7 @@ import { pick } from '@utils';
 import {
   ITEM_TYPE_NODE,
   ITEM_STATE_SELECTED,
-  GRAPH_STATE_NODE_SELECTED,
-  GRAPH_STATE_MULTI_SELECTED,
-  GRAPH_STATE_CANVAS_SELECTED,
+  GraphState,
 } from '@common/constants';
 import withEditorContext from '@common/EditorContext/withEditorContext';
 
@@ -58,6 +56,6 @@ class Panel extends React.PureComponent {
   }
 }
 
-export const NodePanel = Panel.create(GRAPH_STATE_NODE_SELECTED);
-export const MultiPanel = Panel.create(GRAPH_STATE_MULTI_SELECTED);
-export const CanvasPanel = Panel.create(GRAPH_STATE_CANVAS_SELECTED);
+export const NodePanel = Panel.create(GraphState.NodeSelected);
+export const MultiPanel = Panel.create(GraphState.MultiSelected);
+export const CanvasPanel = Panel.create(GraphState.CanvasSelected);

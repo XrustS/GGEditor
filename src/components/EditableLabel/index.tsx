@@ -5,8 +5,7 @@ import {
   SHAPE_CLASSNAME_LABEL,
   ITEM_TYPE_NODE,
   ITEM_STATE_SELECTED,
-  LABEL_STATE_HIDE,
-  LABEL_STATE_SHOW,
+  LabelState,
 } from '@common/constants';
 import withEditorContext from '@common/EditorContext/withEditorContext';
 
@@ -14,7 +13,7 @@ class EditableLabel extends React.PureComponent {
   componentDidUpdate() {
     const { labelState } = this.props;
 
-    if (labelState === LABEL_STATE_SHOW) {
+    if (labelState === LabelState.Show) {
       // focus
       this.labelElement.focus();
 
@@ -26,7 +25,7 @@ class EditableLabel extends React.PureComponent {
   handleBlur = () => {
     const { labelState } = this.props;
 
-    if (labelState === LABEL_STATE_SHOW) {
+    if (labelState === LabelState.Show) {
       this.executeUpdate();
     }
   }
@@ -34,7 +33,7 @@ class EditableLabel extends React.PureComponent {
   handleKeyDown = ({ key }) => {
     if (key === 'Enter' || key === 'Escape') {
       this.executeUpdate();
-      this.props.setLabelState(LABEL_STATE_HIDE);
+      this.props.setLabelState(LabelState.Hide);
     }
   }
 
@@ -126,7 +125,7 @@ class EditableLabel extends React.PureComponent {
       outline: 'none',
     };
 
-    if (labelState === LABEL_STATE_HIDE) {
+    if (labelState === LabelState.Hide) {
       labelStyle = {
         ...labelStyle,
         display: 'none',

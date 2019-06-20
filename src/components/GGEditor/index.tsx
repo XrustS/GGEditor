@@ -5,22 +5,33 @@ import {
   pick,
 } from '@utils';
 import {
-  LABEL_STATE_HIDE,
-  GRAPH_STATE_CANVAS_SELECTED,
+  GraphState,
+  LabelState,
   EDITOR_EVENTS,
   EDITOR_EVENTS_EDITOR_LABEL,
 } from '@common/constants';
 import commandManager from '@common/CommandManager';
 import EditorContext from '@common/EditorContext';
+import { Graph } from '@common/interface';
 
-class GGEditor extends React.Component {
+export interface GGEditorProps {
+
+}
+
+export interface GGEditorState {
+  graph: Graph | null;
+  graphState: GraphState;
+  labelState: LabelState;
+}
+
+class GGEditor extends React.Component<GGEditorProps, GGEditorState> {
   constructor(props) {
     super(props);
 
     this.state = {
       graph: null,
-      graphState: GRAPH_STATE_CANVAS_SELECTED,
-      labelState: LABEL_STATE_HIDE,
+      graphState: GraphState.CanvasSelected,
+      labelState: LabelState.Hide,
       setGraph: this.setGraph,
       setGraphState: this.setGraphState,
       setLabelState: this.setLabelState,

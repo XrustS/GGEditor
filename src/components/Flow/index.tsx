@@ -1,42 +1,44 @@
 import React from 'react';
 import G6 from '@antv/g6';
-import { uuid, recursiveTraversal } from '@utils';
+import { uuid } from '@utils';
 import {
-  MIND_CONTAINER_ID,
-  SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON,
-  LABEL_STATE_HIDE,
+  FLOW_CONTAINER_ID,
+  SHPAE_CLASSNAME_ANCHOR,
+  LabelState,
 } from '@common/constants';
 import withEditorContext from '@common/EditorContext/withEditorContext';
 import Graph from '@components/Graph';
 
-import './shape/nodes/bizMindNode';
-import './command';
+import './shape';
+import './behavior';
 
-class Mind extends React.Component {
+class Flow extends React.Component {
   constructor(props) {
     super(props);
 
-    this.containerId = `${MIND_CONTAINER_ID}_${uuid()}`;
+    this.containerId = `${FLOW_CONTAINER_ID}_${uuid()}`;
   }
 
   canDragCanvas = () => {
     const { labelState } = this.props;
 
-    return labelState === LABEL_STATE_HIDE;
-  }
+    return labelState === LabelState.Hide;
+  };
 
   canZoomCanvas = () => {
     const { labelState } = this.props;
 
-    return labelState === LABEL_STATE_HIDE;
-  }
+    return labelState === LabelState.Hide;
+  };
 
-  canCollapseExpand = ({ target }) => {
-    return target && target.get('className') === SHAPE_CLASSNAME_COLLAPSE_EXPAND_BUTTON;
-  }
+  canDragNode = ({ target }) => {
+    return target && target.get('className') !== SHPAE_CLASSNAME_ANCHOR;
+  };
 
   parseData = ({ data }) => {
-    recursiveTraversal(data, (item) => {
+    const { nodes, edges } = data;
+
+    [...nodes, ...edges].forEach((item) => {
       const { id } = item;
 
       if (id) {
@@ -45,12 +47,12 @@ class Mind extends React.Component {
 
       item.id = uuid();
     });
-  }
+  };
 
   initGraph = ({ width, height }) => {
     const { containerId } = this;
 
-    this.graph = new G6.TreeGraph({
+    this.graph = new G6.Graph({
       container: containerId,
       width,
       height,
@@ -68,31 +70,19 @@ class Mind extends React.Component {
           },
           'click-node',
           'hover-node',
-          'edit-label',
+          'hover-anchor',
           {
-            type: 'collapse-expand',
-            shouldBegin: this.canCollapseExpand,
+            type: 'drag-node',
+            shouldBegin: this.canDragNode,
           },
+          'drag-add-edge',
+          'edit-label',
         ],
-      },
-      layout: {
-        type: 'mindmap',
-        direction: 'H',
-        getHGap() {
-          return 70;
-        },
-      },
-      animate: false,
-      defaultNode: {
-        shape: 'mind-node',
-      },
-      defaultEdge: {
-        shape: 'cubic-horizontal',
       },
     });
 
     return this.graph;
-  }
+  };
 
   render() {
     const { containerId, parseData, initGraph } = this;
@@ -108,6 +98,6 @@ class Mind extends React.Component {
   }
 }
 
-export default withEditorContext(Mind, ({ labelState }) => ({
+export default withEditorContext(Flow, ({ labelState }) => ({
   labelState,
 }));

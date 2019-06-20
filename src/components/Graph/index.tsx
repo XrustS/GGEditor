@@ -3,9 +3,6 @@ import { pick, uuid, addListener } from '@utils';
 import {
   ITEM_TYPE_NODE,
   ITEM_STATE_SELECTED,
-  GRAPH_STATE_NODE_SELECTED,
-  GRAPH_STATE_MULTI_SELECTED,
-  GRAPH_STATE_CANVAS_SELECTED,
   GRAPH_EVENTS_COMMON,
   GRAPH_EVENTS_ITEM_CHANGE,
   EDITOR_COMMAND_REDO,
@@ -13,6 +10,7 @@ import {
   EDITOR_COMMAND_TOPIC,
   EDITOR_COMMAND_SUBTOPIC,
   EDITOR_EVENTS_AFTER_EXECUTE_COMMAND,
+  GraphState,
 } from '@common/constants';
 import withEditorContext from '@common/EditorContext/withEditorContext';
 import EditableLabel from '@components/EditableLabel';
@@ -33,15 +31,15 @@ class Graph extends React.Component {
 
     switch (selectedNodes.length) {
       case 0:
-        graphState = GRAPH_STATE_CANVAS_SELECTED;
+        graphState = GraphState.CanvasSelected;
         break;
 
       case 1:
-        graphState = `${GRAPH_STATE_NODE_SELECTED}_${uuid()}`;
+        graphState = `${GraphState.NodeSelected}_${uuid()}`;
         break;
 
       default:
-        graphState = `${GRAPH_STATE_MULTI_SELECTED}_${uuid()}`;
+        graphState = `${GraphState.MultiSelected}_${uuid()}`;
         break;
     }
 
@@ -105,7 +103,7 @@ class Graph extends React.Component {
     });
 
     addListener(graph, 'canvas:click', () => {
-      setGraphState(GRAPH_STATE_CANVAS_SELECTED);
+      setGraphState(GraphState.CanvasSelected);
     });
   }
 

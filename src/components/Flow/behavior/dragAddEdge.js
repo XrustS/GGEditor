@@ -22,8 +22,9 @@ G6.registerBehavior('drag-add-edge', {
     const graph = this.graph;
 
     // 点亮其它所有节点
-    graph.getNodes().forEach((n) => {
+    graph.getNodes().forEach(n => {
       if (n.get('id') !== node.get('id')) graph.setItemState(n, 'addingEdge', true);
+      else graph.setItemState(n, 'addingSource', true);
     });
 
     const point = { x: ev.x, y: ev.y };
@@ -32,10 +33,10 @@ G6.registerBehavior('drag-add-edge', {
     // 点击节点，触发增加边
     if (!this.addingEdge && !this.edge) {
       this.edge = graph.addItem('edge', {
-        shape: 'polyline-round',
+        shape: 'flowSmooth',
         source: model.id,
         target: point,
-        sourceAnchor: ev.target.get('index'),
+        sourceAnchor: ev.target.get('index')
       });
       this.addingEdge = true;
     }
@@ -45,28 +46,44 @@ G6.registerBehavior('drag-add-edge', {
     if (this.addingEdge && this.edge) {
       // 增加边的过程中，移动时边跟着移动
       this.graph.updateItem(this.edge, {
-        target: point,
+        target: point
       });
     }
   },
   onMouseup(ev) {
-    if (!this.shouldBegin(ev)) return;
     const graph = this.graph;
     const node = ev.item;
-    const model = node.getModel();
+
     // 隐藏所有节点的锚点
+    const hideAnchors = () => {
+      graph.getNodes().forEach(n => {
+        // 清楚所有节点状态
+        graph.clearItemStates(n);
+        graph.refreshItem(n);
+      });
+    };
+
+    if (!this.shouldBegin(ev)) {
+      // 拖拽连线时，未在锚点上放开则取消连线过程
+      if (this.edge && this.addingEdge) {
+        graph.remove(this.edge);
+        this.edge = null;
+        this.addingEdge = false;
+        hideAnchors();
+      }
+      return;
+    }
+
+    const model = node.getModel();
 
     if (this.addingEdge && this.edge) {
       graph.updateItem(this.edge, {
         targetAnchor: ev.target.get('index'),
-        target: model.id,
+        target: model.id
       });
       this.edge = null;
       this.addingEdge = false;
     }
-    graph.getNodes().forEach((n) => {
-      graph.refreshItem(n);
-      graph.setItemState(n, 'addingEdge', false);
-    });
-  },
+    hideAnchors();
+  }
 });

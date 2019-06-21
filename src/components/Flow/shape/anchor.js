@@ -27,6 +27,7 @@ function handleAnchor(name, value, item) {
     // // 进入节点显示所有锚点
     // // 离开节点隐藏所有锚点
     if (name === 'active') value ? this.drawAnchor(model, group) : anchors.forEach(a => a.remove());
+    if (name === 'selected' && !value) anchors.forEach(a => a.remove());
   } else {
     // 拖拽状态下激活锚点则激活 hotspost 样式
     if (name === 'activeAnchor') {
@@ -43,7 +44,7 @@ function handleAnchor(name, value, item) {
       // 拖拽状态下显示 hotspost
       anchors.forEach(a => a.showHotspot());
     } else {
-    // 结束拖拽时清除所有锚点
+      // 结束拖拽时清除所有锚点
       item.getContainer()
         .get('children')
         .filter(i => i.get('className') === SHPAE_CLASSNAME_ANCHOR)
@@ -57,16 +58,15 @@ function drawAnchor(model, group) {
   const anchorPoints = this.getAnchorPoints();
   // 为每个点添加标记
   return anchorPoints.map((p, index) => {
-    // const { keyShape } = this;
-    const keyShape = group.findByClassName(SHAPE_CLASSNAME_KEYSHAPE) || this.keyShape;
-    const width = keyShape.attr('width') || keyShape.attr('r');
-    const height = keyShape.attr('height') || keyShape.attr('r');
+    const keyShape = group.get('item').getKeyShape() || group.findByClassName(SHAPE_CLASSNAME_KEYSHAPE)
+    const width = keyShape.attr('width') || keyShape.attr('r') * 2;
+    const height = keyShape.attr('height') || keyShape.attr('r') * 2;
     const [x, y] = [p[0], p[1]];
     let hotspot;
     const attrs = {
       flowNode: { x: width * x, y: height * y },
-      startNode: { y: height * y },
-      endNode: { y: -height },
+      startNode: { x: width * x - width / 2, y: height * y - height / 2 },
+      endNode: { x: width * x - width / 2, y: height * y - height / 2 },
       'biz-flow-node': { x: width * x + keyShape.attr('x'), y: height * y + keyShape.attr('y') },
     };
     const shape = group.addShape('marker', {

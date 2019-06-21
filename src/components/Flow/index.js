@@ -76,7 +76,7 @@ class Flow extends React.Component {
             shouldBegin: this.canDragNode,
           },
           'drag-add-edge',
-          'edit-label',
+          // 'edit-label',
         ],
       },
     });

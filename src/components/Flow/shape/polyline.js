@@ -1,5 +1,6 @@
 import G6 from '@antv/g6';
-
+import globalStyle from '../common/globalStyle';
+const { edgeStyle } = globalStyle;
 /**
  * @fileOverview auto polyline
  * @author huangtonger@aliyun.com
@@ -46,7 +47,7 @@ function mergeBBox(b1, b2) {
 function isBBoxesOverlapping(b1, b2) {
   return (
     Math.abs(b1.centerX - b2.centerX) * 2 < b1.width + b2.width
-        && Math.abs(b1.centerY - b2.centerY) * 2 < b1.height + b2.height
+    && Math.abs(b1.centerY - b2.centerY) * 2 < b1.height + b2.height
   );
 }
 
@@ -167,9 +168,9 @@ function isSegmentCrossingBBox(p1, p2, bbox) {
   const [pa, pb, pc, pd] = getPointsFromBBox(bbox);
   return (
     isSegmentsIntersected(p1, p2, pa, pb)
-        || isSegmentsIntersected(p1, p2, pa, pd)
-        || isSegmentsIntersected(p1, p2, pb, pc)
-        || isSegmentsIntersected(p1, p2, pc, pd)
+    || isSegmentsIntersected(p1, p2, pa, pd)
+    || isSegmentsIntersected(p1, p2, pb, pc)
+    || isSegmentsIntersected(p1, p2, pc, pd)
   );
 }
 
@@ -181,9 +182,9 @@ function filterHVPoints(points) {
     const last = points[index - 1];
     if (
       next
-            && last
-            && ((next.x === point.x && last.x === point.x)
-                || (next.y === point.y && last.y === point.y))
+      && last
+      && ((next.x === point.x && last.x === point.x)
+        || (next.y === point.y && last.y === point.y))
     ) {
       continue;
     }
@@ -256,7 +257,7 @@ function getNeighborPoints(points, point, bbox1, bbox2) {
       if (p.x === point.x || p.y === point.y) {
         if (
           !isSegmentCrossingBBox(p, point, bbox1)
-                    && !isSegmentCrossingBBox(p, point, bbox2)
+          && !isSegmentCrossingBBox(p, point, bbox2)
         ) {
           neighbors.push(p);
         }
@@ -368,8 +369,8 @@ function getPolylinePoints(start, end, sNode, tNode, offset) {
   [{ x: sPoint.x, y: tPoint.y }, { x: tPoint.x, y: sPoint.y }].forEach((p) => {
     if (
       isPointOutsideBBox(p, sxBBox)
-            && isPointOutsideBBox(p, txBBox) // &&
-            // isPointInsideBBox(p, sMixBBox) && isPointInsideBBox(p, tMixBBox)
+      && isPointOutsideBBox(p, txBBox) // &&
+      // isPointInsideBBox(p, sMixBBox) && isPointInsideBBox(p, tMixBBox)
     ) {
       connectPoints.push(p);
     }
@@ -439,9 +440,8 @@ G6.registerEdge('polyline', {
     return group.addShape('path', {
       attrs: {
         path,
-        endArrow: true,
-        stroke: 'black',
-      },
+        ...edgeStyle
+      }
     });
   },
   getPath(item) {
@@ -456,11 +456,11 @@ G6.registerEdge('polyline', {
       points[points.length - 1],
       source,
       target,
-      this.offset,
+      this.offset
     );
     // FIXME default
     return pointsToPolygon(polylinePoints);
-  },
+  }
 });
 
 export { simplifyPolyline, getPolylinePoints, getPathWithBorderRadiusByPolyline };

@@ -41,7 +41,11 @@ class ItemPanel extends React.PureComponent {
 
 export { Item };
 
-export default withEditorContext(ItemPanel, ({ graph, graphState }) => ({
-  graph,
-  graphState,
-}));
+export default withEditorContext(
+  ItemPanel,
+  ({ graph, graphState, setGraphState }) => ({
+    graph,
+    graphState,
+    setGraphState,
+  }),
+);

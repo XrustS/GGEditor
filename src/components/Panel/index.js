@@ -10,7 +10,7 @@ import {
 import withEditorContext from '@common/EditorContext/withEditorContext';
 
 class Panel extends React.PureComponent {
-  static create = function (type) {
+  static create = function(type) {
     class TypedPanel extends Panel {
       constructor(props) {
         super(props, type);
@@ -21,7 +21,7 @@ class Panel extends React.PureComponent {
       graph,
       graphState,
     }));
-  }
+  };
 
   constructor(props, type) {
     super(props);
@@ -33,7 +33,7 @@ class Panel extends React.PureComponent {
     const { graph } = this.props;
 
     return graph.findAllByState(ITEM_TYPE_NODE, ITEM_STATE_SELECTED);
-  }
+  };
 
   render() {
     const { graph, graphState, children } = this.props;
@@ -48,11 +48,11 @@ class Panel extends React.PureComponent {
 
     return (
       <div {...pick(this.props, ['style', 'className'])}>
-        {
-          React.Children.toArray(children).map(child => React.cloneElement(child, {
+        {React.Children.toArray(children).map(child =>
+          React.cloneElement(child, {
             nodes: this.getSelectedNodes(),
-          }))
-        }
+          }),
+        )}
       </div>
     );
   }

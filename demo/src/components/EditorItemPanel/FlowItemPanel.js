@@ -10,7 +10,7 @@ const FlowItemPanel = () => {
         <Item
           type="node"
           size="72*72"
-          shape="flow-circle"
+          shape="flowNode"
           model={{
             color: '#FA8C16',
             label: 'Start',

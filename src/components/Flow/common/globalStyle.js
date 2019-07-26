@@ -4,14 +4,14 @@ export default {
     fillOpacity: 0.5,
     stroke: '#1890FF',
     strokeOpacity: 0.9,
-    lineDash: [5, 5]
+    lineDash: [5, 5],
   },
   // 元素层级
   zIndex: {
     anchorPoint: 3,
     anchorHotsopt: 2,
     selectedBox: 1,
-    controlPoint: 4
+    controlPoint: 4,
   },
   // ********************     边样式      ********************
   // 边样式
@@ -22,20 +22,20 @@ export default {
     lineAppendWidth: 8,
     endArrow: {
       path: 'M 4,0 L -4,-4 L -4,4 Z', // 自定义箭头为中心点在(0, 0)，指向 x 轴正方向的path
-      d: 4
-    }
+      d: 4,
+    },
   },
   // 鼠标悬浮边
   edgeActivedStyle: {
     stroke: '#1890FF',
-    strokeOpacity: 0.92
+    strokeOpacity: 0.92,
   },
 
   // 选中边的样式
   edgeSelectedStyle: {
     lineWidth: 2,
     strokeOpacity: 0.92,
-    stroke: '#A3B1BF'
+    stroke: '#A3B1BF',
   },
 
   // ********************     锚点      ********************
@@ -44,24 +44,24 @@ export default {
     radius: 3.5,
     fill: '#fff',
     stroke: '#1890FF',
-    lineAppendWidth: 12
+    lineAppendWidth: 12,
   },
   // 锚点热区样式
   anchorHotsoptStyle: {
     radius: 12,
     fill: '#1890FF',
-    fillOpacity: 0.25
+    fillOpacity: 0.25,
   },
   // 锚点热区激活样式
   anchorHotsoptActivedStyle: {
-    radius: 14
+    radius: 14,
   },
   // 锚点鼠标悬浮样式
   anchorPointHoverStyle: {
     radius: 4,
     fill: '#1890FF',
     fillOpacity: 1,
-    stroke: '#1890FF'
+    stroke: '#1890FF',
   },
 
   // ********************     节点      ********************
@@ -69,7 +69,7 @@ export default {
   nodeActivedStyle: {
     fill: '#F3F9FF',
     stroke: '#1890FF',
-    fillOpacity: 0.92
+    fillOpacity: 0.92,
   },
 
   // 节点选中样式
@@ -78,7 +78,7 @@ export default {
     shadowOffsetY: 4,
     shadowBlur: 10,
     shadowColor: '#ccc',
-    lineWidth: 1.5
+    lineWidth: 1.5,
   },
 
   // 开始节点样式
@@ -92,12 +92,19 @@ export default {
     shadowOffsetY: 0,
     shadowBlur: 0,
     shadowColor: '#fff',
-    lineWidth: 1
+    lineWidth: 1,
   },
 
   // 结束节点样式
   endNodeStyle1: { x: 0, y: 0, r: 17, stroke: '#1296DB' },
-  endNodeStyle2: { x: 0, y: 0, r: 12, stroke: '#1296DB', fill: '#1296DB', lineWidth: 1 },
+  endNodeStyle2: {
+    x: 0,
+    y: 0,
+    r: 12,
+    stroke: '#1296DB',
+    fill: '#1296DB',
+    lineWidth: 1,
+  },
 
   // 节点样式
   nodeStyle: {
@@ -109,7 +116,7 @@ export default {
     shadowOffsetX: 0,
     shadowOffsetY: 0,
     shadowBlur: 0,
-    shadowColor: '#fff'
+    shadowColor: '#fff',
   },
 
   // 节点文本标签样式
@@ -119,7 +126,7 @@ export default {
     fontWeight: 'normal',
     fontStyle: 'normal',
     fontVariant: 'normal',
-    textAlign: 'center',
-    textBaseline: 'middle'
-  }
+    textAlign: 'start',
+    textBaseline: 'middle',
+  },
 };

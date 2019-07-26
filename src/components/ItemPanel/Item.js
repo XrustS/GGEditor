@@ -138,6 +138,13 @@ class Item extends React.PureComponent {
     document.removeEventListener('dragover', this.handleDragover);
     document.removeEventListener('drop', this.handleDrop);
   }
+
+  isCursorAtNode(cursorPosition, bbox) {
+    const { x, y } = cursorPosition;
+    const { minX, minY, maxX, maxY } = bbox;
+    return minX <= x && maxX >= x && (minY <= y && maxY >= y);
+  }
+
   //! завершающая функция, которая вызывает команду на добавление новой ноды.
   handleDrop = ev => {
     const {
@@ -151,27 +158,37 @@ class Item extends React.PureComponent {
       setGraphState,
     } = this.props;
     const { dragShapeID } = this.state;
-    console.log('handleDROP =>>', { graphState, Props: this.props });
     // if (graphState === 'drag-drop') {
     const canvas = graph.get('container').getElementsByTagName('canvas')[0];
     const transferredPos = graph.getPointByClient(ev.clientX, ev.clientY);
-    console.log('handleDrop: ', { Props: this.props, transferredPos, ev });
+    const targetNode = graph
+      .getNodes()
+      .filter(node => {
+        const model = node.getModel();
+
+        return model.id !== dragShapeID
+          ? this.isCursorAtNode(transferredPos, node.getBBox())
+          : false;
+      })
+      .shift();
+
     setGraphState('default');
     // Надо понять что мы перетащили на ноду
 
     // drag into canvas
     if (ev.target.id === canvas.id) {
-      executeCommand('add', {
-        type,
-        model: {
-          ...model,
-          shape,
-          ...transferredPos,
-          size: size.split('*'),
-        },
-      });
+      targetNode &&
+        executeCommand('add', {
+          type,
+          model: {
+            ...model,
+            shape,
+            ...transferredPos,
+            // size: size.split('*'),
+          },
+          targetId: targetNode.getModel().id,
+        });
     }
-    console.log(ev.item);
     this.unloadDragShape();
     graph.remove(dragShapeID);
     // }

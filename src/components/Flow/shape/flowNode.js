@@ -1,9 +1,7 @@
 import G6 from '@antv/g6';
 import { drawAnchor, handleAnchor } from './anchor';
 import { drawActivedNode } from './activedNode';
-import {
-  SHAPE_CLASSNAME_KEYSHAPE
-} from '@common/constants';
+import { SHAPE_CLASSNAME_KEYSHAPE } from '@common/constants';
 
 import globalStyle from '../common/globalStyle';
 const { nodeStyle, nodeLabelStyle } = globalStyle;
@@ -32,18 +30,18 @@ G6.registerNode('flowNode', {
     this.adjustLabelShape();
   },
   drawShape(model, group) {
-    const { x, y } = { x: 0, y: 0 };
     const { radius } = nodeStyle;
-    const [width, height] = [40, 40];
+    const [width, height] = [180, 50];
+    const { x, y } = { x: 0 - width / 2, y: 0 - height / 2 };
     const shapeStyle = {
       width,
       height,
-      ...nodeStyle
+      ...nodeStyle,
     };
     // 绘制节点矩形框
     const keyShape = group.addShape('rect', {
       className: SHAPE_CLASSNAME_KEYSHAPE,
-      attrs: { x, y, ...shapeStyle }
+      attrs: { x, y, ...shapeStyle },
     });
 
     // 边框边上的线条
@@ -54,10 +52,10 @@ G6.registerNode('flowNode', {
           ['L', x, y + height - radius],
           ['A', radius, radius, 0, 0, 0, x + radius, y + height],
           ['L', x + radius, y],
-          ['A', radius, radius, 0, 0, 0, x, y + radius]
+          ['A', radius, radius, 0, 0, 0, x, y + radius],
         ],
-        fill: '#13c2c2'
-      }
+        fill: '#13c2c2',
+      },
     });
 
     // 类型 logo
@@ -68,20 +66,19 @@ G6.registerNode('flowNode', {
         x: x + 6,
         y: y + 11,
         width: 20,
-        height: 20
-      }
+        height: 20,
+      },
     });
 
     return keyShape;
   },
   drawLabel(model, group) {
-    const { x, y } = { x: 0, y: 0 };
     const lableStype = {
-      ...nodeLabelStyle
+      ...nodeLabelStyle,
     };
     return group.addShape('text', {
       className: 'label',
-      attrs: { x, y, text: model.label, ...lableStype }
+      attrs: { text: model.label, ...lableStype },
     });
   },
   setState(name, value, item) {
@@ -98,28 +95,33 @@ G6.registerNode('flowNode', {
     const originHeight = keyShape.attr('height');
     const [textWidth, textHeight] = [
       this.getLabelSize({ keyShape }).width,
-      this.getLabelSize({ keyShape }).height
+      this.getLabelSize({ keyShape }).height,
     ];
+    console.log({ textWidth, textHeight });
+
     // 根据文本的宽高调整矩形的宽高
-    if (originHeight < textHeight) keyShape.attr('height', textHeight + 2 * padding[0]);
-    if (originWidth < textWidth) keyShape.attr('width', textWidth + 2 * padding[1] + imgWidth);
+    if (originHeight < textHeight)
+      keyShape.attr('height', textHeight + 2 * padding[0]);
+    if (originWidth < textWidth)
+      keyShape.attr('width', textWidth + 2 * padding[1] + imgWidth);
   },
   adjustLabelShape() {
     const labelShape = this.labelShape;
     const keyShape = this.keyShape;
     const imgWidth = 10;
     // 调整文字的位置，放到中间
-    labelShape.attr('x', keyShape.attr('width') / 2 + imgWidth);
-    labelShape.attr('y', keyShape.attr('height') / 2);
+
+    labelShape.attr('x', 0 + imgWidth);
+    labelShape.attr('y', 0);
   },
   getLabelSize() {
     const labelShape = this.labelShape;
     return {
       width: labelShape.getBBox().width,
-      height: labelShape.getBBox().height
+      height: labelShape.getBBox().height,
     };
   },
   getAnchorPoints() {
-    return [[0, 0.5], [1, 0.5], [0.5, 1], [0.5, 0]];
-  }
-})
+    return [[0.5, 1], [0.5, 0]];
+  },
+});

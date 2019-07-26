@@ -4,21 +4,21 @@
       "x": 100,
       "y": 50,
       "label": "startNode",
-      "shape": "startNode",
+      "shape": "flowNode",
       "id": "startNode"
     },
     {
       "x": 100,
       "y": 800,
       "label": "endNode",
-      "shape": "endNode",
+      "shape": "flowNode",
       "id": "endNode"
     },
     {
       "x": 50,
       "y": 100,
       "label": "flowNode",
-      "shape": "biz-flow-node",
+      "shape": "flowNode",
       "id": "test"
     },
     {
@@ -31,10 +31,29 @@
     {
       "x": 600,
       "y": 400,
-      "label": "flowNode",
+      "label": "test3",
       "shape": "flowNode",
       "id": "test3"
     }
   ],
-  "edges": []
+  "edges": [
+    {
+      "id": 1,
+      "source": "startNode",
+      "target": "test2",
+      "shape": "polyline-round"
+    },
+    {
+      "id": 1,
+      "source": "test2",
+      "target": "test",
+      "shape": "polyline-round"
+    },
+    {
+      "id": 1,
+      "source": "test2",
+      "target": "test3",
+      "shape": "polyline-round"
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 import commandManager from '@common/CommandManager';
 import { uuid } from '@utils';
-import { getDagrePosition } from '../../../utils/halpers';
+import { getDagrePosition } from '../../../utils/helpers';
 
 let edgeId = '';
 

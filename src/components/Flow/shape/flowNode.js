@@ -83,6 +83,8 @@ G6.registerNode('flowNode', {
   },
   setState(name, value, item) {
     // 根据状态绘制节点选中的样式
+    console.log('setStateNode: ', { name, value });
+
     this.drawActivedNode(name, value, item);
     // 根据状态绘制锚点
     this.handleAnchor(name, value, item, 'flow');

@@ -14,28 +14,29 @@ const {
 
 function handleAnchor(name, value, item) {
   const model = item.get('model');
-  // 拿到 group
+  // получить group
   const group = item.getContainer();
-  // 拿到所有的锚点
+  // Получить все точки привязки
   const anchors = group
     .get('children')
     .filter(e => e.get('className') === SHPAE_CLASSNAME_ANCHOR);
 
-  // 非拖拽状态
+  // Состояние без перетаскивания
   if (!this.addingEdge) {
-    // 进入锚点激活锚点, value 为目标锚点
-    // // 离开锚点则清除所有锚点激活样式
+    // Введите опорную точку, чтобы активировать опорную точку,
+    // а значение - это целевая опорная точка
+    // // Оставляем якорь, чтобы очистить все стили активации якоря
     if (name === 'activeAnchor')
       value
         ? value.setActived && value.setActived()
         : anchors.forEach(a => a.clearActived());
-    // // 进入节点显示所有锚点
-    // // 离开节点隐藏所有锚点
+    // // покидаем узел, чтобы скрыть все точки привязки
+    // // Вход в узел для отображения всех точек привязки
     if (name === 'active')
       value ? this.drawAnchor(model, group) : anchors.forEach(a => a.remove());
     if (name === 'selected' && !value) anchors.forEach(a => a.remove());
   } else {
-    // 拖拽状态下激活锚点则激活 hotspost 样式
+    // Активируем опорную точку, чтобы активировать стиль горячей точки при перетаскивании
     if (name === 'activeAnchor') {
       value
         ? value.setHotspotActived && value.setHotspotActived(true)
@@ -44,15 +45,15 @@ function handleAnchor(name, value, item) {
           );
     }
   }
-  // 进入拖拽状态
+  // Вход в состояние перетаскивания
   if (name === 'addingEdge') {
     if (value) {
       this.addingEdge = true;
       const anchors = this.drawAnchor(model, group);
-      // 拖拽状态下显示 hotspost
+      // показать точку доступа в состоянии перетаскивания
       anchors.forEach(a => a.showHotspot());
     } else {
-      // 结束拖拽时清除所有锚点
+      // Очистить все точки привязки при перетаскивании
       item
         .getContainer()
         .get('children')
@@ -65,7 +66,7 @@ function handleAnchor(name, value, item) {
 
 function drawAnchor(model, group) {
   const anchorPoints = this.getAnchorPoints();
-  // 为每个点添加标记
+  // Добавить теги к каждой точке
   return anchorPoints.map((p, index) => {
     const keyShape =
       group.get('item').getKeyShape() ||
@@ -106,7 +107,7 @@ function drawAnchor(model, group) {
         zIndex: zIndex.anchorHotsopt,
       });
 
-      // 让 hotspot 显示在更上层的图层
+      // Пусть горячая точка появится на верхнем слое
       hotspot.toFront();
       shape.toFront();
     };

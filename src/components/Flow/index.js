@@ -38,7 +38,7 @@ class Flow extends React.Component {
   parseData = ({ data }) => {
     const { nodes, edges } = data;
 
-    [...nodes, ...edges].forEach((item) => {
+    [...nodes, ...edges].forEach(item => {
       const { id } = item;
 
       if (id) {
@@ -58,6 +58,12 @@ class Flow extends React.Component {
       height,
       modes: {
         default: [
+          {
+            type: 'tooltip',
+            formatText(model) {
+              return model.label;
+            },
+          },
           {
             type: 'drag-canvas',
             shouldBegin: this.canDragCanvas,
